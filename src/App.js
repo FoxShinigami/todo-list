@@ -63,23 +63,22 @@ class App extends React.Component {
     }
 
     onDragStart(ev, task){
-      console.log('dragstart')
       ev.dataTransfer.setData("name",task.name)
     }
 
     onDrop(ev, cat){    
-      console.log("dropstart",cat)
       let name = ev.dataTransfer.getData("name");
-
       let sections = this.state.sections
       for(let section in sections){
         let i = 0
         for(let task of sections[section].list){
           if(task){
             if(task.key == name){
-              console.log(task)
               sections[cat].list.push(task)
-              delete sections[section].list[i]
+              var index = sections[section].list.indexOf(sections[section].list[i]);
+              if (index > -1) {
+                sections[section].list.splice(index, 1);
+              }
             }
           }
           i++
