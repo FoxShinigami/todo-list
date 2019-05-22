@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import '../App.css';
 
 export class Task extends React.Component {    
@@ -16,7 +15,6 @@ export class Task extends React.Component {
 
 	render(){
 		let task = this.props.task
-		console.log('task', task)
 		return(
 			<div 		                            
 		        onDragStart={(e)=>this.props.onDragStart(e, task)}                    
