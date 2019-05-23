@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { FaPlus } from "react-icons/fa";
 import './App.css';
 import { Section } from './components/section'
 import "babel-polyfill"
@@ -40,6 +41,15 @@ class App extends React.Component {
     ev.preventDefault();
   }
 
+  addSection(){
+    axios.post('http://177.21.29.139:8000/list/api/section/',{"name":"New Section"}).then(response => {
+      this.fetch()
+			})
+			.catch(error => {
+				console.log(error);
+		});
+  }
+
   render () { 
     let sections = this.state.sections
     let sections_list = []
@@ -52,7 +62,8 @@ class App extends React.Component {
     }
     return (
       <div className="container-drag">
-      <h2 className="header">To do List</h2>  
+      <h2 className="header">To do List</h2>
+      <FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addSection()}></FaPlus> 
       <div style={{width:"100%",height:"100%"}}
       onDragOver={(e)=>this.onDragOver(e)}>       
         {sections_list}

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { FaPlus } from "react-icons/fa";
+import { FaPlus,FaTimes } from "react-icons/fa";
 import { Task } from './task'
 import { Task_Edit_Name } from './task_edit_name'
 import { Task_Edit_Description } from './task_edit_description'
@@ -98,6 +98,15 @@ export class Section extends React.Component {
     });
   }
 
+  deleteSection(id){
+    axios.delete('http://177.21.29.139:8000/list/api/section/'+id+'/').then(response => {
+      this.fetch()
+      })
+      .catch(error => {
+        console.log(error);
+    });
+  }
+
 	render(){
 		let section = this.props.section
     let section_list = []
@@ -122,14 +131,18 @@ export class Section extends React.Component {
         ); 
       }             
             
-		});
+    });
 		
 		return(
 			<div
         className="section"
         onDragOver={(e)=>this.props.onDragOver(e)}                    
         onDrop={(e)=>{this.props.onDrop(e, section.id)}}>                    
-        <span className="task-header">{section.name}<FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addJob(section.id)}></FaPlus></span>       
+        <span className="task-header">
+          {section.name}
+          <FaTimes style={{float: 'inline-end', margin:"0.1em"}} onClick={()=>this.deleteSection(section.id)}></FaTimes>
+          <FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addJob(section.id)}></FaPlus>          
+        </span>       
         <div>                   
         {section_list}
         </div>                
