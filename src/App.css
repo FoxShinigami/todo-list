@@ -11,7 +11,7 @@
 }
 
 .section { 
-  padding: 5em;
+  padding: 1em;
   padding-top: 0.5em;
   display: inline-grid;
   background-color: #EEEEEE;
@@ -46,7 +46,7 @@
   padding-left: 5px;
   padding-right: 5px;
   margin: 5px auto;
-  line-height: 5em;
+  line-height: 2em;
   border: dotted;
 }
 

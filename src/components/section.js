@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { FaPlus } from "react-icons/fa";
 import { Task } from './task'
 import { Task_Edit_Name } from './task_edit_name'
 import { Task_Edit_Description } from './task_edit_description'
@@ -14,6 +15,7 @@ export class Section extends React.Component {
       this.taskChangeDescription = this.taskChangeDescription.bind(this)
       this.taskChangeDescriptionStart = this.taskChangeDescriptionStart.bind(this)  
       this.onDragStart = this.onDragStart.bind(this)
+      this.fetch = this.props.fetch.bind(this)
       this.state={
         tasks: this.props.section.job
       }
@@ -83,6 +85,19 @@ export class Section extends React.Component {
     ev.dataTransfer.setData("id",task.id)
   } 
 
+  addJob(id){
+    axios.post('http://177.21.29.139:8000/list/api/job/',{
+      "name": "New job",
+      "description": "New job",
+      "section": id
+    }).then(response => {
+        this.props.fetch()
+      })
+      .catch(error => {
+        console.log(error);
+    });
+  }
+
 	render(){
 		let section = this.props.section
     let section_list = []
@@ -90,19 +105,19 @@ export class Section extends React.Component {
       if(t.edit_name){
         section_list.push(
           <div key={t.name} >
-              <Task_Edit_Name task={t} onDragStart={this.onDragStart} taskChangeName={this.taskChangeName} />
+              <Task_Edit_Name task={t} onDragStart={this.onDragStart} taskChangeName={this.taskChangeName} fetch={this.fetch} />
           </div>
         );
       }else if(t.edit_description){
         section_list.push(
           <div key={t.name} >
-              <Task_Edit_Description task={t} onDragStart={this.onDragStart} taskChangeDescription={this.taskChangeDescription} />
+              <Task_Edit_Description task={t} onDragStart={this.onDragStart} taskChangeDescription={this.taskChangeDescription} fetch={this.fetch} />
           </div>
         );
       }else{
         section_list.push(
           <div key={t.name} >
-              <Task task={t} onDragStart={this.onDragStart} taskChangeNameStart={this.taskChangeNameStart} taskChangeDescriptionStart={this.taskChangeDescriptionStart}/>
+              <Task task={t} onDragStart={this.onDragStart} taskChangeNameStart={this.taskChangeNameStart} taskChangeDescriptionStart={this.taskChangeDescriptionStart} fetch={this.fetch}/>
           </div>
         ); 
       }             
@@ -114,8 +129,8 @@ export class Section extends React.Component {
         className="section"
         onDragOver={(e)=>this.props.onDragOver(e)}                    
         onDrop={(e)=>{this.props.onDrop(e, section.id)}}>                    
-        <span className="task-header">{section.name}</span>         
-        <div>                    
+        <span className="task-header">{section.name}<FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addJob(section.id)}></FaPlus></span>       
+        <div>                   
         {section_list}
         </div>                
       </div> 
