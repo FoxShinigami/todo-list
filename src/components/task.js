@@ -5,12 +5,17 @@ export class Task extends React.Component {
 
 	constructor(props) {
 	    super(props);
-	    this.onClick = this.onClick.bind(this)
+		this.onClickName = this.onClickName.bind(this)
+		this.onClickDescription = this.onClickDescription.bind(this)
 	}
 
-	onClick(e,task){
-		console.log(task)
+	onClickName(e,task){
+		e.preventDefault();
 		this.props.taskChangeNameStart(task.name)
+	}
+	onClickDescription(e,task){
+		e.preventDefault();
+		this.props.taskChangeDescriptionStart(task.description)
 	}
 
 	render(){
@@ -20,8 +25,8 @@ export class Task extends React.Component {
 		        onDragStart={(e)=>this.props.onDragStart(e, task)}                    
 		        draggable                    
 		        className="draggable">                       
-		        <p onClick={(e)=>this.onClick(e, task)}>{task.name}</p>
-		        <p>{task.description}</p>                
+		        <p onClick={(e)=>this.onClickName(e, task)}>{task.name}</p>
+		        <p onClick={(e)=>this.onClickDescription(e, task)}>{task.description}</p>                
 		    </div>
 		)
 	}

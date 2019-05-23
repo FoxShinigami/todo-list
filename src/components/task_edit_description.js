@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 
-export class Task_Edit_Name extends React.Component {    
+export class Task_Edit_Description extends React.Component {    
 
 	constructor(props) {
 	    super(props);
@@ -15,8 +15,8 @@ export class Task_Edit_Name extends React.Component {
 	}
 
 	handleSubmit(event,task) {
-	    this.props.taskChangeName(this.state.value,task.name)
-		event.preventDefault();
+	    this.props.taskChangeDescription(this.state.value,task.description)
+	    event.preventDefault();
 	}
 
 	render(){
@@ -25,11 +25,11 @@ export class Task_Edit_Name extends React.Component {
 			<div 		                            
 		        onDragStart={(e)=>this.props.onDragStart(e, task)}                   
 		        draggable                    
-		        className="draggable">
-		        <form onSubmit={(e)=>this.handleSubmit(e,task)}>                       
+		        className="draggable">		        
+		        <p>{task.name}</p>
+                <form onSubmit={(e)=>this.handleSubmit(e,task)}>                       
 		        <input type='text'value={this.state.value} onChange={this.handleChange}/>
 		        </form>
-		        <p>{task.description}</p>
 		    </div>
 		)
 	}
