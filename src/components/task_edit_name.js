@@ -15,7 +15,7 @@ export class Task_Edit_Name extends React.Component {
 	}
 
 	handleSubmit(event,task) {
-	    this.props.taskChangeName(this.state.value,task.name)
+	    this.props.taskChangeName(this.state.value,task.id)
 		event.preventDefault();
 	}
 
@@ -26,10 +26,12 @@ export class Task_Edit_Name extends React.Component {
 		        onDragStart={(e)=>this.props.onDragStart(e, task)}                   
 		        draggable                    
 		        className="draggable">
-		        <form onSubmit={(e)=>this.handleSubmit(e,task)}>                       
-		        <input type='text'value={this.state.value} onChange={this.handleChange}/>
-		        </form>
-		        <p>{task.description}</p>
+				<div style={{borderBottom:"solid"}}>
+					<form onSubmit={(e)=>this.handleSubmit(e,task)}>                       
+					<input type='text'value={this.state.value} onChange={this.handleChange}/>
+					</form>
+				</div>
+		        <a>{task.description}</a>
 		    </div>
 		)
 	}

@@ -12,34 +12,43 @@ export class Task extends React.Component {
 	}
 
 	onClickName(e,task){
-		e.preventDefault();
-		this.props.taskChangeNameStart(task.name)
+		if(!this.props.allowed){
+		  e.preventDefault();
+		  this.props.taskChangeNameStart(task.id)
+		}
+		
 	}
+	
 	onClickDescription(e,task){
-		e.preventDefault();
-		this.props.taskChangeDescriptionStart(task.description)
+		if(!this.props.allowed){
+			e.preventDefault();
+			this.props.taskChangeDescriptionStart(task.id)
+		}
 	}
 
 	deleteJob(id){
-		axios.delete('http://177.21.29.139:8000/list/api/job/'+id+'/').then(response => {
-            this.props.fetch()
-          })
-          .catch(error => {
-            console.log(error);
-        });
+		axios.delete('http://177.136.122.194:8000/list/api/job/'+id+'/').then(response => {
+			this.props.fetch()
+			})
+			.catch(error => {
+				console.log(error);
+		});
 	}
 
 	render(){
 		let task = this.props.task
 		return(
 			<div 		                            
-		        onDragStart={(e)=>this.props.onDragStart(e, task)}                    
-		        draggable                    
-		        className="draggable">     
+				onDragStart={(e)=>this.props.onDragStart(e, task)}                    
+				draggable                    
+				className="draggable">
+				<div style={{borderBottom:"solid"}}>   
 				<FaTimes style={{float: 'inline-end', margin:"0.1em"}} onClick={()=>this.deleteJob(task.id)}></FaTimes>                  
-		        <p onClick={(e)=>this.onClickName(e, task)}>{task.name}</p>
-		        <p onClick={(e)=>this.onClickDescription(e, task)}>{task.description}</p>                
-		    </div>
+				<a onClick={(e)=>this.onClickName(e, task)}>{task.name}</a>
+				</div>  
+				<br />
+				<a onClick={(e)=>this.onClickDescription(e, task)}>{task.description}</a>                
+			</div>
 		)
 	}
 }

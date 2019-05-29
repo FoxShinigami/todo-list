@@ -43,10 +43,8 @@
 }
 
 .draggable {
-  padding-left: 5px;
-  padding-right: 5px;
   margin: 5px auto;
   line-height: 2em;
-  border: dotted;
+  border: solid;
 }
 

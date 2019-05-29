@@ -6,6 +6,8 @@ import { Task_Edit_Name } from './task_edit_name'
 import { Task_Edit_Description } from './task_edit_description'
 import '../App.css';
 
+
+
 export class Section extends React.Component {    
 
 	constructor(props) {
@@ -17,17 +19,23 @@ export class Section extends React.Component {
       this.onDragStart = this.onDragStart.bind(this)
       this.fetch = this.props.fetch.bind(this)
       this.state={
-        tasks: this.props.section.job
+        tasks: this.props.section.job,
       }
+      this.onClickName = this.onClickName.bind(this)
+  }
+  
+  onClickName(e,section){
+		e.preventDefault();
+		this.props.sectionChangeNameStart(section.name)
 	}
 
-	taskChangeName(new_name,name){
+	taskChangeName(new_name,id){
     let tasks = this.state.tasks
     for (let task in tasks){
-      if(tasks[task].name === name){
+      if(tasks[task].id === id){
         tasks[task].name = new_name
-        tasks[task].edit_name = false
-        axios.patch('http://177.21.29.139:8000/list/api/job/'+tasks[task].id+'/',{name:new_name}).then(response => {
+        tasks[task].edit_name=false
+        axios.patch('http://177.136.122.194:8000/list/api/job/'+tasks[task].id+'/',{name:new_name}).then(response => {
             this.props.fetch()
           })
           .catch(error => {
@@ -39,25 +47,23 @@ export class Section extends React.Component {
     });     
   }
 
-  taskChangeNameStart(name){   
+  taskChangeNameStart(id){   
     let tasks = this.props.section.job
     for (let task in tasks){
-      if(!tasks[task].edit_description){
-        if(tasks[task].name === name){
-          tasks[task].edit_name= true
+        if(tasks[task].id === id){
+          tasks[task].edit_name=true
         }
-      }  
     }
     this.setState({tasks: tasks}); 
   }
 
-  taskChangeDescription(new_description,description){
+  taskChangeDescription(new_description,id){
     let tasks = this.state.tasks
     for (let task in tasks){
-      if(tasks[task].description === description){
+      if(tasks[task].id === id){
         tasks[task].description = new_description
-        tasks[task].edit_description = false
-        axios.patch('http://177.21.29.139:8000/list/api/job/'+tasks[task].id+'/',{description:new_description}).then(response => {
+        tasks[task].edit_description=false
+        axios.patch('http://177.136.122.194:8000/list/api/job/'+tasks[task].id+'/',{description:new_description}).then(response => {
             this.props.fetch()
           })
           .catch(error => {
@@ -69,13 +75,11 @@ export class Section extends React.Component {
     });     
   }
 
-  taskChangeDescriptionStart(description){   
+  taskChangeDescriptionStart(id){  
     let tasks = this.props.section.job
     for (let task in tasks){
-      if(!tasks[task].edit_name){
-        if(tasks[task].description === description){
-          tasks[task].edit_description = true
-        }
+      if(tasks[task].id === id){
+        tasks[task].edit_description=true
       }
     }
     this.setState({tasks: tasks});     
@@ -86,7 +90,7 @@ export class Section extends React.Component {
   } 
 
   addJob(id){
-    axios.post('http://177.21.29.139:8000/list/api/job/',{
+    axios.post('http://177.136.122.194:8000/list/api/job/',{
       "name": "New job",
       "description": "New job",
       "section": id
@@ -99,7 +103,7 @@ export class Section extends React.Component {
   }
 
   deleteSection(id){
-    axios.delete('http://177.21.29.139:8000/list/api/section/'+id+'/').then(response => {
+    axios.delete('http://177.136.122.194:8000/list/api/section/'+id+'/').then(response => {
       this.fetch()
       })
       .catch(error => {
@@ -113,19 +117,19 @@ export class Section extends React.Component {
 		section.job.forEach((t) => {    
       if(t.edit_name){
         section_list.push(
-          <div key={t.name} >
+          <div key={t.id} >
               <Task_Edit_Name task={t} onDragStart={this.onDragStart} taskChangeName={this.taskChangeName} fetch={this.fetch} />
           </div>
         );
       }else if(t.edit_description){
         section_list.push(
-          <div key={t.name} >
+          <div key={t.id} >
               <Task_Edit_Description task={t} onDragStart={this.onDragStart} taskChangeDescription={this.taskChangeDescription} fetch={this.fetch} />
           </div>
         );
       }else{
         section_list.push(
-          <div key={t.name} >
+          <div key={t.id} >
               <Task task={t} onDragStart={this.onDragStart} taskChangeNameStart={this.taskChangeNameStart} taskChangeDescriptionStart={this.taskChangeDescriptionStart} fetch={this.fetch}/>
           </div>
         ); 
@@ -137,12 +141,14 @@ export class Section extends React.Component {
 			<div
         className="section"
         onDragOver={(e)=>this.props.onDragOver(e)}                    
-        onDrop={(e)=>{this.props.onDrop(e, section.id)}}>                    
-        <span className="task-header">
-          {section.name}
-          <FaTimes style={{float: 'inline-end', margin:"0.1em"}} onClick={()=>this.deleteSection(section.id)}></FaTimes>
-          <FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addJob(section.id)}></FaPlus>          
-        </span>       
+        onDrop={(e)=>{this.props.onDrop(e, section.id)}}>
+        <div>                    
+          <div className="task-header">
+          <a onClick={(e)=>this.onClickName(e, section)}>{section.name}</a>
+            <FaTimes style={{float: 'inline-end', margin:"0.1em"}} onClick={()=>this.deleteSection(section.id)}></FaTimes>                  
+          </div> 
+          <FaPlus style={{float: 'inline-end', margin:"0.2em"}} onClick={()=>this.addJob(section.id)}></FaPlus>
+        </div>        
         <div>                   
         {section_list}
         </div>                

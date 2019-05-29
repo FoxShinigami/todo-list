@@ -5,8 +5,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
     "babel-polyfill": "^6.26.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
     "react-icons": "^3.7.0",
     "react-scripts": "2.1.1"
   },
