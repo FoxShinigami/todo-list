@@ -28,7 +28,7 @@ export class Task_Edit_Description extends React.Component {
 		        className="draggable">		        
 		        
 				<div style={{borderBottom:"solid"}}>
-				<a>{task.name}</a>
+				<a className='task-text'>{task.name}</a>
 				</div>
                 <form onSubmit={(e)=>this.handleSubmit(e,task)}>                       
 		        <input type='text'value={this.state.value} onChange={this.handleChange}/>

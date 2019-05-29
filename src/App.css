@@ -18,6 +18,10 @@
 
 }
 
+.task-text{
+  margin: 0.5em
+}
+
 .section-out {
   /*padding-top: 5px;*/
   /*padding-left: 5px;*/

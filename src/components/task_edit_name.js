@@ -31,7 +31,7 @@ export class Task_Edit_Name extends React.Component {
 					<input type='text'value={this.state.value} onChange={this.handleChange}/>
 					</form>
 				</div>
-		        <a>{task.description}</a>
+		        <a className='task-text'>{task.description}</a>
 		    </div>
 		)
 	}

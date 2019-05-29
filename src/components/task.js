@@ -44,10 +44,10 @@ export class Task extends React.Component {
 				className="draggable">
 				<div style={{borderBottom:"solid"}}>   
 				<FaTimes style={{float: 'inline-end', margin:"0.1em"}} onClick={()=>this.deleteJob(task.id)}></FaTimes>                  
-				<a onClick={(e)=>this.onClickName(e, task)}>{task.name}</a>
+				<a className='task-text' onClick={(e)=>this.onClickName(e, task)}>{task.name}</a>
 				</div>  
 				<br />
-				<a onClick={(e)=>this.onClickDescription(e, task)}>{task.description}</a>                
+				<a className='task-text' onClick={(e)=>this.onClickDescription(e, task)}>{task.description}</a>                
 			</div>
 		)
 	}
